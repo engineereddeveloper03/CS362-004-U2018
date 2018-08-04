@@ -1361,7 +1361,7 @@ int playSeaHagCard(struct gameState* state)
 {
    int currentPlayer = whoseTurn(state);
 
-   for (int i = 0; i < state->numPlayers; i++)
+   for (int i = 0; i <= state->numPlayers; i++)
    {
       if (i != currentPlayer)
       {
