@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Program Name: unittest2.c
  * Author: Phillip Sturtevant
- * Date: July 22, 2018
+ * Date: August 12, 2018
  * Description: A unit test for the discardCard function in Dominion.
  * ----------------------------------------------------------------------
  */

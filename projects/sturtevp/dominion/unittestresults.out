@@ -1,0 +1,359 @@
+Result for running Unit tests:
+unittest1.c:
+TESTING gainCard function:
+Check if pulling from non-existent Supply
+TEST SUCCESS
+Return Expected: -1  Result: -1
+
+Check if trying to pull card from empty Supply
+TEST SUCCESS
+Return Expected: -1  Result: -1
+TEST SUCCESS
+Expected: 9  Result: 9
+
+Check if card only added to hand/deck/discard depending on flag set.
+Adding to discard...
+TEST SUCCESS
+Player 1 Discard Expected: 1  Result: 1
+TEST SUCCESS
+Player 2 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 1 Deck Expected: 5  Result: 5
+TEST SUCCESS
+Player 2 Deck Expected: 10  Result: 10
+TEST SUCCESS
+Player 1 Hand Expected: 5  Result: 5
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+Adding to deck...
+TEST SUCCESS
+Player 1 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 2 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 1 Deck Expected: 6  Result: 6
+TEST SUCCESS
+Player 2 Deck Expected: 10  Result: 10
+TEST SUCCESS
+Player 1 Hand Expected: 5  Result: 5
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+Adding to hand...
+TEST SUCCESS
+Player 1 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 2 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 1 Deck Expected: 5  Result: 5
+TEST SUCCESS
+Player 2 Deck Expected: 10  Result: 10
+TEST SUCCESS
+Player 1 Hand Expected: 6  Result: 6
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+File 'dominion.c'
+Lines executed:18.44% of 564
+Branches executed:17.27% of 417
+Taken at least once:14.39% of 417
+Calls executed:8.00% of 100
+Creating 'dominion.c.gcov'
+
+unittest2.c:
+TESTING discardCard function:
+Checking if card is properly trashed
+Player 1:
+TEST SUCCESS
+Discard Expected: 0  Result: 0
+TEST SUCCESS
+Deck Expected: 5  Result: 5
+TEST SUCCESS
+Hand Expected: 4  Result: 4
+Player 2:
+TEST SUCCESS
+Discard Expected: 0  Result: 0
+TEST SUCCESS
+Deck Expected: 10  Result: 10
+TEST SUCCESS
+Hand Expected: 0  Result: 0
+TEST SUCCESS
+Played Cards Expected: 0  Result: 0
+
+Checking if not trashed, the card is in the played pile.
+Player 1:
+TEST SUCCESS
+Discard Expected: 0  Result: 0
+TEST SUCCESS
+Deck Expected: 5  Result: 5
+TEST SUCCESS
+Hand Expected: 4  Result: 4
+Player 2:
+TEST SUCCESS
+Discard Expected: 0  Result: 0
+TEST SUCCESS
+Deck Expected: 10  Result: 10
+TEST SUCCESS
+Hand Expected: 0  Result: 0
+TEST SUCCESS
+Played Cards Expected: 1  Result: 1
+
+Checking if replaced card is last in hand.
+TEST SUCCESS
+Expected Card: 4  Result: 4
+
+If last card in hand, only remove it and don't set other cards.
+TEST SUCCESS
+Card Enum Expected: -1  Result: -1
+TEST SUCCESS
+Total Cards Expected: 0  Result: 0
+File 'dominion.c'
+Lines executed:20.57% of 564
+Branches executed:18.71% of 417
+Taken at least once:15.59% of 417
+Calls executed:8.00% of 100
+Creating 'dominion.c.gcov'
+
+unittest3.c:
+TESTING scoreFor function:
+Checking proper addition of each card type for the hand.
+TEST SUCCESS
+Score Expected: 10  Result: 10
+
+Checking proper addition of garden card.
+TEST FAILURE
+Score Expected: 15  Result: 14
+
+Checking proper addition of each card type for the discard pile.
+TEST SUCCESS
+Score Expected: 10  Result: 10
+
+Checking proper addition of each card type for the deck.
+TEST FAILURE
+Score Expected: 10  Result: 0
+
+Checking proper addition between hand/deck/discard piles.
+TEST SUCCESS
+Score Expected: 3  Result: 3
+
+Checking decks unchanged after addition.
+TEST SUCCESS
+Hand Count Expected: 1 Result: 1
+Deck Count Expected: 1 Result: 1
+Discard Count Expected: 1 Result: 1
+File 'dominion.c'
+Lines executed:26.24% of 564
+Branches executed:31.18% of 417
+Taken at least once:26.62% of 417
+Calls executed:10.00% of 100
+Creating 'dominion.c.gcov'
+
+unittest4.c:
+TESTING isGameOver function:
+Check if the game continues if each pile is still active.
+TEST SUCCESS
+Expected Result = 0  Result = 0
+
+Check if the game ends if all province cards are gone.
+TEST SUCCESS
+Expected Result = 1  Result = 1
+
+Check that if 1 supply card is gone, game still continues.
+TEST SUCCESS
+Expected Result = 0  Result = 0
+
+Check that if 2 supply cards are gone, game still continues.
+TEST SUCCESS
+Expected Result = 0  Result = 0
+
+Check that if 3 supply cards are gone, game ends.
+TEST SUCCESS
+Expected Result = 1  Result = 1
+File 'dominion.c'
+Lines executed:28.01% of 564
+Branches executed:33.09% of 417
+Taken at least once:28.54% of 417
+Calls executed:10.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest1.c:
+TESTING Smithy card:
+Check if three cards are given to player
+TEST FAILURE
+Player 1 Hand Expected: 8  Result: 9
+
+Check if cards were taken from same player.
+TEST FAILURE
+Player 1 Deck Expected: 2  Result: 1
+TEST SUCCESS
+Player 2 Deck Expected: 10  Result: 10
+
+Check if the Smithy card was discarded.
+TEST FAILURE
+Player 1 Discard Expected: 1  Result: 0
+
+Check the other player's discard pile/hand to make sure they did not get any cards.
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+TEST SUCCESS
+Player 2 Discard Expected: 0  Result: 0
+Check states of victory and kingdom card piles are the same.
+TEST SUCCESS
+Curse Count Expected: 10  Result: 10
+TEST SUCCESS
+Victory Card 1 Expected: 8  Result: 8
+TEST SUCCESS
+Victory Card 2 Expected: 8  Result: 8
+TEST SUCCESS
+Victory Card 3 Expected: 8  Result: 8
+TEST SUCCESS
+Coins Expected: 46  Result: 46
+TEST SUCCESS
+Coins Expected: 40  Result: 40
+TEST SUCCESS
+Coins Expected: 30  Result: 30
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 8  Result: 8
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 10  Result: 10
+TEST SUCCESS
+Kingdom Cards Expected: 8  Result: 8
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+TEST SUCCESS
+Kingdom Cards Expected: -1  Result: -1
+File 'dominion.c'
+Lines executed:29.43% of 564
+Branches executed:33.57% of 417
+Taken at least once:29.02% of 417
+Calls executed:13.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest2.c:
+TESTING Adventurer Card:
+Check that the player was given two cards.
+TEST FAILURE
+Player 1 Hand Expected: 7  Result: 8
+Check that other player's cards did not change.
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+TEST SUCCESS
+Player 2 Deck Expected: 10  Result: 10
+TEST SUCCESS
+Player 2 Discard Expected: 0  Result: 0
+
+Check that the cards given were treasure cards
+TEST FAILURE
+Expected treasure: 2  Result: 3
+
+Check discard and deck for differences.
+TEST SUCCESS
+Beginning Discard: 0  End Discard: 1
+TEST SUCCESS
+Beginning Deck: 5  End Deck: 1
+
+Check the discard pile is shuffled into the deck when looking for treasure.
+TEST SUCCESS - Cards were shuffled.
+File 'dominion.c'
+Lines executed:35.28% of 564
+Branches executed:37.41% of 417
+Taken at least once:32.85% of 417
+Calls executed:17.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest3.c:
+TESTING Sea Hag Card:
+Check Player 2's deck to make sure they discarded a card and received curse.
+TEST FAILURE
+Player 2 Deck Expected: 10  Result: 7
+
+Check Player 2 discard pile for added card from deck.
+TEST SUCCESS
+Player 2 Discard Expected: 1  Result: 1
+
+Check Player 1 deck to ensure it is unchanged.
+TEST SUCCESS
+Player 1 Deck Expected: 5  Result: 5
+
+Check Player 1 discard pile and hand for change from dropping Sea Hag Card
+TEST FAILURE
+Player 1 Discard Expected: 1  Result: 0
+TEST FAILURE
+Player 1 Hand Expected: 4  Result: 5
+
+Check Player 2 hand making sure it is unchanged.
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+
+Check curse cards are removed from the supply pile.
+TEST FAILURE
+Curses Expected: 9  Result: 10
+File 'dominion.c'
+Lines executed:36.88% of 564
+Branches executed:38.37% of 417
+Taken at least once:33.81% of 417
+Calls executed:18.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest4.c:
+TESTING Embargo card:
+Check if Player received two coins for purchase.
+TEST SUCCESS
+Expected coins: 2  Result: 2
+
+Check if Player 1 trashed card and if all other states are unchanged.
+TEST SUCCESS
+Player 1 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 2 Discard Expected: 0  Result: 0
+TEST SUCCESS
+Player 1 Deck Expected: 5  Result: 5
+TEST SUCCESS
+Player 2 Deck Expected: 10  Result: 10
+TEST SUCCESS
+Player 1 Hand Expected: 5  Result: 5
+TEST SUCCESS
+Player 2 Hand Expected: 0  Result: 0
+
+Check whether Embargo token was added to card.
+TEST SUCCESS
+Embargo Tokens Expected: 1  Result: 1
+
+Check if the function exits if the supply does not exist in the game.
+TEST SUCCESS
+State Expected: -1  Result: -1
+File 'dominion.c'
+Lines executed:38.30% of 564
+Branches executed:38.85% of 417
+Taken at least once:34.29% of 417
+Calls executed:20.00% of 100
+Creating 'dominion.c.gcov'
+

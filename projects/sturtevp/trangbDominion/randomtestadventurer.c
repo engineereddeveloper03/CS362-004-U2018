@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Program Name: randomtestadventurer.c
  * Author: Phillip Sturtevant
- * Date: August 5 2018
+ * Date: August 12, 2018
  * Description: A random tester for the Adventurer card in Dominion.
  * ----------------------------------------------------------------------
  */
@@ -20,7 +20,9 @@ void checkAdventurerCard(int p, int handPos, struct gameState *post)
    struct gameState pre;
    memcpy (&pre, post, sizeof(struct gameState));
 
-   int result = playAdventurerCard(post);
+   int drawntreasure = 0;
+   int temphand[MAX_HAND];
+   int result = adventurerEffect(drawntreasure, p, post, temphand);
 
    // manually look for 2 treasure cards in the deck
    int cards = 0;
@@ -36,6 +38,10 @@ void checkAdventurerCard(int p, int handPos, struct gameState *post)
             {
                pre.handCount[p]++;
             }
+            else
+            {
+               printf("Hand full. Cannot add card.\n");
+            }
             pre.hand[p][pre.handCount[p] - 1] = nextCard;
             pre.deckCount[p]--;
             cards++;
@@ -49,6 +55,7 @@ void checkAdventurerCard(int p, int handPos, struct gameState *post)
       }
       else  // take shuffled cards from deck
       {
+         printf("I was shuffled.\n");
          memcpy(pre.deck[p], post->deck[p], sizeof(int) * pre.discardCount[p]);
          memcpy(pre.discard[p], post->discard[p], sizeof(int)*pre.discardCount[p]);
          pre.deckCount[p] = post->deckCount[p];
@@ -68,18 +75,22 @@ void checkAdventurerCard(int p, int handPos, struct gameState *post)
       int countPost = 0;
 
       // check how many treasure cards in hand
+      printf("Manual deck treasure cards:\n");
       for (int i = 0; i < pre.handCount[p]; i++)
       {
          if (pre.hand[p][i] >= 4 && pre.hand[p][i] <= 6)
          {
             countPre++;
+            printf("Card: %d\n", pre.hand[p][i]);
          }
       }
+      printf("Automatic deck treasure cards:\n");
       for (int i = 0; i < post->handCount[p]; i++)
       {
          if (post->hand[p][i] >= 4 && post->hand[p][i] <= 6)
          {
             countPost++;
+            printf("Card: %d\n", post->hand[p][i]);
          }
       }
 

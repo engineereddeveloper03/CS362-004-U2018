@@ -1,8 +1,8 @@
 /* ----------------------------------------------------------------------
  * Program Name: randomtestcard2.c
  * Author: Phillip Sturtevant
- * Date: August 5 2018
- * Description: A random tester for the Smithy card in Dominion.
+ * Date: August 12, 2018
+ * Description: A random tester for the Sea Hag card in Dominion.
  * ----------------------------------------------------------------------
  */
 
@@ -19,8 +19,9 @@ void checkSeaHagCard(int p, int handPos, struct gameState *post)
 {
    struct gameState pre;
    memcpy (&pre, post, sizeof(struct gameState));
+   int coin_bonus = 0;
 
-   int result = playSeaHagCard(post);
+   int result = cardEffect(25, 0, 0, 0, post, 0, &coin_bonus);
 
    // manually remove 1 card from player 1's deck
    if (pre.deckCount[p - 1] > 0) {

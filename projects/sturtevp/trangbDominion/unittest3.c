@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Program Name: unittest3.c
  * Author: Phillip Sturtevant
- * Date: July 22, 2018
+ * Date: August 12, 2018
  * Description: A unit test for the scoreFor function in Dominion.
  * ----------------------------------------------------------------------
  */
@@ -114,7 +114,7 @@ int main() {
    G.deckCount[player] = 0;
 
    // add cards to deck
-   G.deckCount[player] = 7;
+   G.deckCount[player] = 6;
 
    G.deck[player][0] = 0;
    G.deck[player][1] = 1;

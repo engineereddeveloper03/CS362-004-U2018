@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Program Name: randomtestcard1.c
  * Author: Phillip Sturtevant
- * Date: August 5 2018
+ * Date: August 12, 2018
  * Description: A random tester for the Smithy card in Dominion.
  * ----------------------------------------------------------------------
  */
@@ -20,7 +20,7 @@ void checkSmithyCard(int p, int handPos, struct gameState *post)
    struct gameState pre;
    memcpy (&pre, post, sizeof(struct gameState));
 
-   int result = playSmithyCard(post, handPos);
+   int result = smithyEffect(p, post, handPos);
 
    // manually add 3 cards to the hand
    if (pre.deckCount[p] >= 3) {

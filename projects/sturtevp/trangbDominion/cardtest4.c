@@ -1,114 +1,120 @@
-/* -----------------------------------------------------------------------
-*
-* Include the following lines in  makefile:
-*
-* cardtest4: cardtest4.c dominion.o rngs.o
-*      gcc -o cardtest4 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
-* -----------------------------------------------------------------------
-*/
+/* ----------------------------------------------------------------------
+ * Program Name: cardtest4.c
+ * Author: Phillip Sturtevant
+ * Date: August 12, 2018
+ * Description: A unit test for the Embargo card in Dominion.
+ * ----------------------------------------------------------------------
+ */
 
-#include <string.h>
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include "rngs.h"
+#include "string.h"
 
-//int cutpurseEffect(int currentPlayer, struct gameState * state, int handPos)
-
-struct gameState * resetGame(int k[], int seed, int players) {
-	struct gameState * g;
-	//create/reset a game
-	g = malloc(sizeof(struct gameState) * 1);
-
-	//init game
-	initializeGame(players, k, seed, g);
-	//create a copy of the game
-	return g;
-}
-
-#define NOISY_TEST 1
-#define CUTPURSEGAIN 2
-#define HAND 2
 int main() {
-	struct gameState * testG;
-	//revised kingdom to include steward
-	int kingdom[10] = { adventurer, gardens, embargo, village, minion, steward, cutpurse,
-		sea_hag, tribute, smithy };
-	int seed = 1000;
-	int newHand;
-	int oldHand;
-	int numPlayers;
-	int oldCoinCount;
-	int newCoinCount;
-	int j;
-	int k;
-	printf("TESTING CUTPURSE\n");
-	for (numPlayers = 1; numPlayers < 4; numPlayers++) {
-		//start/reset a game with numPlayers
-		testG = resetGame(kingdom, seed, numPlayers+1);
-		oldCoinCount = testG->coins;
-		gainCard(cutpurse, testG, HAND, 0);
-		printf("Original coins: %d\n", oldCoinCount);
-		printf("BEFORE HAND: ");
-		for (j = 0; j < testG->handCount[0]; j++) {
-			printf(" %d", testG->hand[0][j]);
-		}
-		printf("\n\n");
-		printf("Displaying opponent hands BEFORE cutpurse\n\n");
-		oldHand = 5;
-		int curturn;
-		for (j = 1; j < numPlayers +1; j++) {
-			endTurn(testG);
-			curturn = whoseTurn(testG);
-			printf("curturn %d\n", curturn);
-			printf("Player %d: ", j +1);
-			for (k = 0; k < testG->handCount[j]; k++) {
-				printf(" %d", testG->hand[j][k]);
-			}
-			
-			printf("\n\n");
-		}
-		endTurn(testG);
-		printf("curturn %d\n", whoseTurn(testG));
-		cutpurseEffect(0, testG, testG->handCount[0]);
-		newCoinCount = testG->coins;
-		printf("New coins: %d\n", newCoinCount);
-		printf("new total pOne hand %d\n", testG->handCount[0]);
-		newHand = testG->handCount[0];
-		printf("AFTER HAND: ");
-		for (j = 0; j < testG->handCount[0]; j++) {
-			printf(" %d", testG->hand[0][j]);
-		}
-		if (newHand == oldHand) {
-			printf("TEST PASSED for pOne hand count\n");
-		}
-		else {
-			printf("TEST FAILED for pOne hand count\n");
-		}
-		printf("\n\nDisplaying opponent hands AFTER cutpurse\n\n");
-		for (j = 1; j < numPlayers +1; j++) {
-			endTurn(testG);
-			printf("Player %d: ", j +1 );
-			for (k = 0; k < testG->handCount[j]; k++) {
-				printf(" %d", testG->hand[j][k]);
-			}
-			printf("\n\n");
-			newHand = testG->handCount[j];
-			if (newHand == oldHand-1) {
-				printf("TEST PASSED for player %d hand count\n",j+1);
-			}
-			else {
-				printf("TEST FAILED for player %d hand count\n",j+1);
-			}
-			
-		}
-		printf("\n");
-		//for (i = 1; i < numPlayers; i++) {
-		//	printf("player %d coin count: %d",i+1,)
-		//}
-		//printf("\n\n");
-		free(testG);
-	}
+   int seed = 1000;
+   int numPlayers = 2;
+   struct gameState G, testG;
+   int k[10] = { adventurer, council_room, feast, gardens, mine
+		, remodel, smithy, village, baron, great_hall };
+   
+   int handPos = 5;
+   int coinPre = 0;
+   int coinPost = 0;
+   int choice1 = 5;
+   int player = 0;
+   int coin_bonus = 0;
+
+   // initialize a game state and player cards
+   initializeGame(numPlayers, k, seed, &G);
+
+   // add Embargo card to hand
+   G.handCount[player] = 6;
+   G.hand[player][handPos] = 22;
+
+   memcpy(&testG, &G, sizeof(struct gameState)); // copy game state
+
+   printf("TESTING Embargo card:\n");
+
+   printf("Check if Player received two coins for purchase.\n");
+
+   cardEffect(22, choice1, 0, 0, &G, handPos, &coin_bonus);
+
+   coinPre = testG.coins;
+   coinPost = G.coins;
+
+   if ((coinPre + 2) == coinPost) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n");  }
+   printf("Expected coins: 2  Result: %d\n", (coinPost - coinPre));
+
+   printf("\nCheck if Player 1 trashed card and if all other states are unchanged.\n");
+
+   int deckPre1 = testG.deckCount[player]; 
+   int deckPre2 = testG.deckCount[1];
+   int handPre1 = testG.handCount[player];
+   int handPre2 = testG.handCount[1];
+   int discardPre1 = testG.discardCount[player];
+   int discardPre2 = testG.discardCount[1];
+
+   int deckPost1 = G.deckCount[player];
+   int deckPost2 = G.deckCount[1];
+   int handPost1 = G.handCount[player];
+   int handPost2 = G.handCount[1];
+   int discardPost1 = G.discardCount[player]; 
+   int discardPost2 = G.discardCount[1];
+
+   // Check discard piles
+   if(discardPre1 == discardPost1) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("Player 1 Discard Expected: %d  Result: %d\n", discardPre1, discardPost1);
+   if(discardPre2 == discardPost2) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("Player 2 Discard Expected: %d  Result: %d\n", discardPre2, discardPost2);
+
+   // Check deck cards
+   if(deckPre1 == deckPost1) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("Player 1 Deck Expected: %d  Result: %d\n", deckPre1, deckPost1);
+   if(deckPre2 == deckPost2) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("Player 2 Deck Expected: %d  Result: %d\n", deckPre2, deckPost2);
+
+   // Check hand cards
+   if((handPre1 - 1) == handPost1) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("Player 1 Hand Expected: %d  Result: %d\n", (handPre1 - 1), handPost1);
+   if(handPre2 == handPost2) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("Player 2 Hand Expected: %d  Result: %d\n", handPre2, handPost2);
+
+   printf("\nCheck whether Embargo token was added to card.\n");
+
+   if ((testG.embargoTokens[choice1] + 1) == G.embargoTokens[choice1]) 
+   {
+      printf("TEST SUCCESS\n");
+   }
+   else { printf("TEST FAILURE\n");  }
+   printf("Embargo Tokens Expected: %d  Result: %d\n", (testG.embargoTokens[choice1] + 1), G.embargoTokens[choice1]);
+ 
+   // Check with kingdom card not being used
+   printf("\nCheck if the function exits if the supply does not exist in the game.\n");
+
+   memset(&G, 23, sizeof(struct gameState));   // clear the game state
+   initializeGame(numPlayers, k, seed, &G); // initialize a new game
+
+   // add Embargo card to hand
+   choice1 = 21;
+   G.handCount[player] = 6;
+   G.hand[player][handPos] = 22;
+ 
+   int result = cardEffect(22, choice1, 0, 0, &G, handPos, &coin_bonus);
+
+   if (result == -1) { printf("TEST SUCCESS\n"); }
+   else { printf("TEST FAILURE\n"); }
+   printf("State Expected: -1  Result: %d\n", result);
+
+   return 0;
 }
